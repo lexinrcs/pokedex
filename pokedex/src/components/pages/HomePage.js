@@ -1,4 +1,6 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState, useRef} from 'react';
+import NavBar from '../organism/Navbar.js';
+import './HomePage.css'
 
 
 export default function HomePage(){
@@ -8,10 +10,11 @@ export default function HomePage(){
     const [hasMore, setHasMore] = useState(true);
     const [numberOfCards, setNumberOfCards] = useState();
     
+    const [currentSorting, setCurrentSorting] = useState("Pokemon ID (Ascending)");
     const [beenSorted, setBeenSorted] = useState(false);
 
     const [currentCards, setCurrentCards] = useState([]);
-    
+        
     useEffect(() => {
         fetchPokemonCount();
     }, []); //fetch once
@@ -76,16 +79,53 @@ export default function HomePage(){
             setNumberOfCards(numberOfCards + 10);
         }
     }
+    const [showPokemonList, setShowPokemonList] = useState(false);
+    const cardSection = useRef(null);
+
+
+    const handleExploreClick = () => {
+        setShowPokemonList(true);
+        setTimeout(() => {
+            scrollToSection(cardSection);
+        }, 100); // Adjust the delay as needed
+    };
+
+    const scrollToSection = (elementRef) => {
+        elementRef.current?.scrollIntoView({
+            behavior: 'smooth'
+        });
+    }
 
     return (
-        <div>
-            {currentCards.map((pokemon, index) => (
-                <li><button key={pokemon.name} onClick={() => {console.log(pokemon)}}>{pokemon.name}</button></li>
-            ))}
+        <div className='h-min'>
+            {/* Nav Bar */}
+            <NavBar /> 
+            {/* Main Home Page Screen */}
+            <div className='w-full h-min flex items-center justify-center flex-col'>
+                {/* Welcome section */}
+                <div className='h-screen flex flex-col items-center justify-center'>
+                    <img id="pokeball" src='/assets/pokeball.png' className='mt-24 w-[600px]'/>
 
-            <button onClick={handleLoadMore} disabled={!hasMore}>
-                LOAD MORE
-            </button>
+                    <div className='border-4 border-blue-2 w-fit mt-20'>
+                        <button onClick={handleExploreClick} className='bg-blue-2 text-white px-10 py-4 font-["nunito"] text-yellow-1 border-4 border-yellow-1'> EXPLORE POKEMONS </button>
+                    </div>
+                </div>
+                {/* Card Section */}
+                <div  className='h-screen w-full bg-yellow-1' id="card-view-section" ref={cardSection}>
+                    {/* Functionalities Section */}
+                    <div>
+                      
+                    </div>      
+                    {currentCards.map((pokemon, index) => (
+                        <li key={pokemon.name}><button onClick={() => { console.log(pokemon) }}>{pokemon.name}</button></li>
+                    ))}
+                    <button onClick={handleLoadMore} disabled={!hasMore}>
+                        LOAD MORE
+                    </button>
+                </div>
+
+            </div>
+
         </div>
     );
 }
