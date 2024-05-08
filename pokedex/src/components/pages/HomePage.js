@@ -199,12 +199,10 @@ export default function HomePage(){
                 {/* Welcome section */}
                 <div className='w-full h-screen flex flex-col items-center justify-center bg-gray-100'>
                     <img id="pokeball" src='/assets/pokeball.png' className='mt-24 w-[600px]'/>
-
-                    <div className='border-4 border-blue-2 w-fit mt-20'>
-                        <button onClick={handleExploreClick} className='bg-blue-2 text-white px-10 py-4 font-["nunito"] text-xxl border-4 border-yellow-1'> 
-                            EXPLORE OTHER POKEMONS 
-                        </button>
-                    </div>
+          
+                    <button onClick={handleExploreClick} className='text-blue-2 px-10 pt-8 font-["nunito"] text-3xl font-bold hover:text-blue-1'> 
+                        EXPLORE OTHER POKEMONS 
+                    </button>
                 </div>
                 {/* Card Section */}
                 <div  className='h-min-content w-full bg-gray-100 flex flex-col items-center justify-center' id="card-view-section" ref={cardSection}>
@@ -246,8 +244,8 @@ export default function HomePage(){
                         </div>
                     </div>
                     <div className='flex flex-wrap items-center justify-center'>
-                        {currentCards.map((pokemon, index) => (
-                            <PokemonCard pokemon={pokemon} imageUrls={imageUrls} name={pokemon.name}/>                
+                        {currentCards.map((pokemon) => (
+                            <PokemonCard pokemon={pokemonData[pokemon.name]} imageUrls={imageUrls} name={pokemon.name}/>                
                         ))}
                     </div>
                     <div>
