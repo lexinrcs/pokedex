@@ -1,9 +1,12 @@
 import React, { useEffect, useState, useRef} from 'react';
 import NavBar from '../organism/Navbar.js';
+import PokemonCard from '../organism/PokemonCard.js';
 import './HomePage.css'
 
 
 export default function HomePage(){
+    const [loading, setLoading] = useState(true);
+
     const [pokemonCount, setPokemonCount] = useState();
     const [pokemonList, setPokemonList] = useState([]);
 
@@ -94,7 +97,98 @@ export default function HomePage(){
         elementRef.current?.scrollIntoView({
             behavior: 'smooth'
         });
+    };
+
+    const [searchTerm, setSearchTerm] = useState("");
+    const [sortBy, setSortBy] = useState("");
+    const [filterById, setFilterById] = useState("");
+    const [filterByName, setFilterByName] = useState("");
+  
+    const handleSearch = (e) => {
+        setBeenSorted(true)
+        setSearchTerm(e.target.value);
+    };
+  
+    const handleSort = (type) => {
+        setBeenSorted(true)
+        setSortBy(type);
+    };
+  
+    const handleFilterById = (e) => {
+        setBeenSorted(true)
+        setFilterById(e.target.value);
+    };
+  
+    const handleFilterByName = (e) => {
+      setFilterByName(e.target.value);
+    };
+  
+    const filteredData = pokemonList.filter((item) => {
+      return (
+        (filterById === "" || item.id.toString().includes(filterById)) &&
+        (filterByName === "" || item.name.toLowerCase().includes(filterByName.toLowerCase())) &&
+        (searchTerm === "" || item.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
+    });
+  
+    const sortedData = [...filteredData].sort((a, b) => {
+      if (sortBy === "id_asc") {
+        return a.id - b.id;
+      } else if (sortBy === "id_desc") {
+        return b.id - a.id;
+      } else if (sortBy === "name_asc") {
+        return a.name.localeCompare(b.name);
+      } else if (sortBy === "name_desc") {
+        return b.name.localeCompare(a.name);
+      } else {
+        return 0;
+      }
+    });
+    
+    const [imageUrls, setImageUrls] = useState({});
+    const [pokemonData, setPokemonData] = useState({});
+
+    const getPokemonId = (pokemonData) => {
+        const id = String(pokemonData.id).padStart(3, '0');
+        return id;
     }
+
+    useEffect(() => {
+        const fetchPokemonImages = async () => {
+          try {
+            const fetchedImageUrls = {};
+            const allDataPokemons = {};
+
+            await Promise.all(
+              pokemonList.map(async (pokemon) => {
+                const response = await fetch(pokemon.url);
+                if (response.ok) {
+                  const pokemonData = await response.json();
+                  allDataPokemons[pokemon.name] = pokemonData;
+
+                  const id = String(pokemonData.id).padStart(3, '0');
+                  const imageUrl = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png`;
+                  fetchedImageUrls[pokemon.name] = imageUrl;
+                }
+              })
+            );
+            
+            setImageUrls(fetchedImageUrls);
+            setPokemonData(allDataPokemons);
+            setLoading(false);
+          } catch (error) {
+            console.error("Error fetching Pokemon images:", error);
+            setLoading(false);
+          }
+        };
+
+        fetchPokemonImages();
+      }, [pokemonList]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+    
 
     return (
         <div className='h-min'>
@@ -103,25 +197,64 @@ export default function HomePage(){
             {/* Main Home Page Screen */}
             <div className='w-full h-min flex items-center justify-center flex-col'>
                 {/* Welcome section */}
-                <div className='h-screen flex flex-col items-center justify-center'>
+                <div className='w-full h-screen flex flex-col items-center justify-center bg-gray-100'>
                     <img id="pokeball" src='/assets/pokeball.png' className='mt-24 w-[600px]'/>
 
                     <div className='border-4 border-blue-2 w-fit mt-20'>
-                        <button onClick={handleExploreClick} className='bg-blue-2 text-white px-10 py-4 font-["nunito"] text-yellow-1 border-4 border-yellow-1'> EXPLORE POKEMONS </button>
+                        <button onClick={handleExploreClick} className='bg-blue-2 text-white px-10 py-4 font-["nunito"] text-xxl border-4 border-yellow-1'> 
+                            EXPLORE OTHER POKEMONS 
+                        </button>
                     </div>
                 </div>
                 {/* Card Section */}
-                <div  className='h-screen w-full bg-yellow-1' id="card-view-section" ref={cardSection}>
+                <div  className='h-min-content w-full bg-gray-100 flex flex-col items-center justify-center' id="card-view-section" ref={cardSection}>
                     {/* Functionalities Section */}
+                    <div className='mt-[140px] flex items-center justify-center'>
+                        {/* Search bar */}
+                        <input
+                            type="text"
+                            placeholder="Search by name"
+                            value={searchTerm}
+                            onChange={handleSearch}
+                            className="border border-gray-300 px-3 py-1 rounded-md mb-3"
+                        />
+
+                        {/* Filter by ID */}
+                        <input
+                            type="text"
+                            placeholder="Filter by ID"
+                            value={filterById}
+                            onChange={handleFilterById}
+                            className="border border-gray-300 px-3 py-1 rounded-md mb-3"
+                        />
+
+                        {/* Filter by Name */}
+                        <input
+                            type="text"
+                            placeholder="Filter by Name"
+                            value={filterByName}
+                            onChange={handleFilterByName}
+                            className="border border-gray-300 px-3 py-1 rounded-md mb-3"
+                        />
+
+                        {/* Sort buttons */}
+                        <div className="flex space-x-3 mb-3">
+                            <button onClick={() => handleSort("id_asc")} className="btn">Sort by ID (asc)</button>
+                            <button onClick={() => handleSort("id_desc")} className="btn">Sort by ID (desc)</button>
+                            <button onClick={() => handleSort("name_asc")} className="btn">Sort by Name (asc)</button>
+                            <button onClick={() => handleSort("name_desc")} className="btn">Sort by Name (desc)</button>
+                        </div>
+                    </div>
+                    <div className='flex flex-wrap items-center justify-center'>
+                        {currentCards.map((pokemon, index) => (
+                            <PokemonCard pokemon={pokemon} imageUrls={imageUrls} name={pokemon.name}/>                
+                        ))}
+                    </div>
                     <div>
-                      
-                    </div>      
-                    {currentCards.map((pokemon, index) => (
-                        <li key={pokemon.name}><button onClick={() => { console.log(pokemon) }}>{pokemon.name}</button></li>
-                    ))}
-                    <button onClick={handleLoadMore} disabled={!hasMore}>
-                        LOAD MORE
-                    </button>
+                        <button className='text-xxl m-10' onClick={handleLoadMore} disabled={!hasMore}>
+                            LOAD MORE
+                        </button>
+                    </div>
                 </div>
 
             </div>
