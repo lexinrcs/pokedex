@@ -35,6 +35,12 @@ export default function HomePage(){
     }, []); //fetch once
 
     useEffect(() => {
+        setTimeout(() => {
+            setCount(currentCards.length);
+        }, 3000); // Delay in milliseconds (e.g., 2000ms = 2 seconds)
+      }, [currentCards]);
+
+    useEffect(() => {
         const fetchPokemonImages = async () => {
           try {
             const fetchedImageUrls = {};
@@ -107,13 +113,8 @@ export default function HomePage(){
         });
         
         setCurrentCards(sortedData.slice(0, numberOfCards));
-        setHasMore((sortedData.length));
+        setHasMore((sortedData.length > numberOfCards) ? true : false);
         setLoading(false);
-
-        setTimeout(() => {
-            setCount(currentCards.length);
-        }, 3000); // Delay in milliseconds (e.g., 2000ms = 2 seconds)
-
     }, [pokemonList, numberOfCards, searchTerm, filterById, filterByName, sortBy])
     
 
@@ -173,7 +174,7 @@ export default function HomePage(){
     
 
     return (
-        <div className='h-min'>
+        <div className='main-container h-min'>
             {/* Nav Bar */}
             <NavBar /> 
             {/* Main Home Page Screen */}

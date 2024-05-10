@@ -1,7 +1,10 @@
 import React, { useEffect, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import './PokemonCard.css'
 
 export default function PokemonCard({pokemon, imageUrls, name}){
+    const navigate = useNavigate();
+
     if(pokemon && name){
         const idNumber = String(pokemon.id).padStart(3, '0');
         const types = pokemon.types.map((typeObj, index) => typeObj.type.name);
@@ -26,11 +29,15 @@ export default function PokemonCard({pokemon, imageUrls, name}){
         // }
         // Add more conditions for other types as needed
 
+        const handleCardClick = (pokemonName) => {
+            navigate(`../pokemon/${pokemonName}`);
+        }
+    
         return(
 
             <div className={`card-div rounded-lg animated-background hover:bg-gradient-to-r hover:cursor-pointer hover:border-blue-1 hover:scale-110 hover:shadow-lg hover:shadow-gray-400 
                         transition-all duration-300 ease-in-out from-red-100 via-yellow-50 to-blue-200
-                        font-['nunito'] max-w-xs border-2 border-blue-2 shadow mx-5 my-5 ${colorClass} bg-white`}>
+                        font-['nunito'] max-w-xs border-2 border-blue-2 shadow mx-5 my-5 ${colorClass} bg-white`} onClick={() => handleCardClick(pokemon.name)}>
                 
                 <div className='flex items-center justify-end w-full text-xl font-bold text-blue-2 pr-3 pt-2'>
                         ID: {idNumber}
@@ -82,6 +89,10 @@ export default function PokemonCard({pokemon, imageUrls, name}){
                 </div>
             </div>
         );
+    } else {
+        <div>
+            Waiting...
+        </div>
     }
 }  
 
