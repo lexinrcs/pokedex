@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef} from 'react';
 import NavBar from '../organism/Navbar.js';
 import PokemonCard from '../organism/PokemonCard.js';
 import './HomePage.css'
-import { useIsomorphicLayoutEffect } from 'framer-motion';
+import { FaSearch } from "react-icons/fa";
 
 
 export default function HomePage(){
@@ -20,6 +20,8 @@ export default function HomePage(){
     const [sortBy, setSortBy] = useState("id_asc");
     const [filterById, setFilterById] = useState("");
     const [filterByName, setFilterByName] = useState("");
+    const [disableFilterById, setDisableFilterById] = useState(true);
+    const [disableFilterByName, setDisableFilterByName] = useState(true);
 
     const [beenSorted, setBeenSorted] = useState(false);
 
@@ -37,7 +39,7 @@ export default function HomePage(){
     useEffect(() => {
         setTimeout(() => {
             setCount(currentCards.length);
-        }, 3000); // Delay in milliseconds (e.g., 2000ms = 2 seconds)
+        }, 1000); // Delay in milliseconds (e.g., 2000ms = 2 seconds)
       }, [currentCards]);
 
     useEffect(() => {
@@ -73,8 +75,9 @@ export default function HomePage(){
     useEffect(() => {
         const filteredData = pokemonList.filter((pokemon) => {
             const data = pokemonData[pokemon.name]
+
             return (
-              (filterById === "" || data.id.toString().includes(filterById)) &&
+              (filterById === "" || data.id.toString().includes(String(filterById).padStart(3, '0')) || String((data.id).toString()).padStart(3, '0').includes(filterById)) &&
               (filterByName === "" || pokemon.name.toLowerCase().includes(filterByName.toLowerCase())) &&
               (searchTerm === "" || pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()))
             );
@@ -181,7 +184,7 @@ export default function HomePage(){
             <div className='w-full h-min flex items-center justify-center flex-col'>
                 {/* Welcome section */}
                 <div className='w-full h-screen flex flex-col items-center justify-center bg-gray-100'>
-                    <img id="pokeball" src='/assets/pokeball.png' className='mt-24 w-[600px]'/>
+                    <img id="pokeball" src='/assets/pokeball.png' className='mt-[140px] w-[500px]'/>
           
                     <p className="text-lg m-6 group relative w-max pt-5">
                         <button className='hover:text-blue-1 text-3xl font-["nunito"] font-bold text-blue-2' onClick={handleExploreClick} disabled={!hasMore}>EXPLORE POKEMONS</button>
@@ -193,40 +196,53 @@ export default function HomePage(){
                 {/* Card Section */}
                 <div  className='h-min-content w-full bg-gray-100 flex flex-col items-center justify-center' id="card-view-section" ref={cardSection}>
                     {/* Functionalities Section */}
-                    <div className='mt-[140px] flex flex-wrap items-center justify-center'>
+                    <div className='mt-[160px] w-full flex flex-wrap items-center justify-center mx-5 mb-20'>
                         {/* Search bar */}
-                        <input
-                            type="text"
-                            placeholder="Search by name"
-                            value={searchTerm}
-                            onChange={handleSearch}
-                            className="border border-gray-300 px-3 py-1 rounded-md mb-3"
-                        />
-
-                        {/* Filter by ID */}
-                        <input
-                            type="text"
-                            placeholder="Filter by ID"
-                            value={filterById}
-                            onChange={handleFilterById}
-                            className="border border-gray-300 px-3 py-1 rounded-md mb-3"
-                        />
-
-                        {/* Filter by Name */}
-                        <input
-                            type="text"
-                            placeholder="Filter by Name"
-                            value={filterByName}
-                            onChange={handleFilterByName}
-                            className="border border-gray-300 px-3 py-1 rounded-md mb-3"
-                        />
+                        <div className='min-w-fit flex items-center justify-center'>
+                            <FaSearch className='w-5 h-5 text-blue-2 mx-2 mb-3'/>
+                            <input type="text" placeholder="Search by name or id" value={searchTerm} onChange={handleSearch}
+                                className="font-['nunito'] w-96 xl:w-[400px] h-12 border-2 border-blue-2 px-3 py-1 rounded-lg mb-3 mx-2 placeholder-slate-400 
+                                focus:outline-none focus:border-blue-1 focus:ring-1 focus:ring-sky-200"/>
+                        </div>
 
                         {/* Sort buttons */}
-                        <div className="flex space-x-3 mb-3">
-                            <button onClick={() => handleSort("id_asc")} className="btn">Sort by ID (asc)</button>
-                            <button onClick={() => handleSort("id_desc")} className="btn">Sort by ID (desc)</button>
-                            <button onClick={() => handleSort("name_asc")} className="btn">Sort by Name (asc)</button>
-                            <button onClick={() => handleSort("name_desc")} className="btn">Sort by Name (desc)</button>
+                        <div className="flex">
+                            {/* Dropdown for sort selection */}
+                            <select onChange={(e) => handleSort(e.target.value)} className="btn w-96 xl:w-[370px] h-12 rounded-lg border-2 border-blue-2 px-3 py-1 rounded-lg mb-3 placeholder-slate-400 
+                                    focus:outline-none focus:border-blue-1 focus:ring-2 focus:ring-sky-200 ml-8">
+                                <option value="id_asc">ID (Lowest to Highest)</option>
+                                <option value="id_desc">ID (Highest to Lowest)</option>
+                                <option value="name_asc">Name (A to Z)</option>
+                                <option value="name_desc">Name (Z to A)</option>
+                            </select>
+                        </div>
+
+                        <div className='flex flex-wrap flex-row mx-4 items-center justify-center min-w-fit md:w-[800px]'>
+                            {/* Filter by ID */}
+                            <div className='flex items-center justify-center'>
+                                <input type="checkbox" checked={!disableFilterById} onChange={() => {setDisableFilterById(!disableFilterById); setFilterById("")}} 
+                                    className='w-[20px] h-[20px] text-blue-2 bg-gray-100 border-2 border-blue-2 rounded focus:ring-blue-1 mx-2 mb-3'/>
+
+                                <input type="text" placeholder="Filter by ID" value={filterById} onChange={handleFilterById}
+                                    className={`w-96 xl:w-[370px] flex-grow font-['nunito'] h-12 border-2 border-blue-2 px-3 py-1 rounded-lg mb-3 placeholder-slate-400 
+                                    focus:outline-none focus:border-blue-1 focus:ring-2 focus:ring-sky-200 ${disableFilterById ? 'opacity-50' : ''}`}
+                                    disabled={disableFilterById}
+                                />
+                            </div>
+                           
+
+                            {/* Filter by Name */}
+                            <div className='flex flex-wrap items-center justify-center'>   
+                                <input type="checkbox" checked={!disableFilterByName} onChange={() =>{ setDisableFilterByName(!disableFilterByName); setFilterByName("");}} 
+                                    className='w-[20px] h-[20px] text-blue-2 bg-gray-100 border-2 border-blue-2 rounded focus:ring-blue-1 mx-2 md:mr-2 md:ml-4  mb-3'/>
+
+                                <input type="text" placeholder="Filter by Name" value={filterByName} onChange={handleFilterByName}
+                                    className={`w-96 xl:w-[370px] flex-grow font-['nunito'] h-12 border-2 border-blue-2 px-3 py-1 rounded-lg mb-3 placeholder-slate-400 
+                                    focus:outline-none focus:border-blue-1 focus:ring-2 focus:ring-sky-200 ${disableFilterByName ? 'opacity-50' : ''}`}
+                                    disabled={disableFilterByName}
+                                />
+                            </div>
+                           
                         </div>
                     </div>
                     {count > 0 ? (
@@ -245,7 +261,7 @@ export default function HomePage(){
                         </>
                     ) : (
                         <div> 
-                            Loading...
+                            No data available.
                         </div>
                     )}
                   

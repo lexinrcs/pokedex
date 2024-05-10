@@ -48,7 +48,7 @@ export default function PokemonCard({pokemon, imageUrls, name}){
                     (<img key={name} className="rounded-t-lg" src={imageUrls[name]} alt={name}/>) : 
                     (
                     <div className='min-w-80 flex items-center justify-center'>
-                        Loading...
+                        No available data.
                     </div>
                     )
                 }
