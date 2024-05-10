@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import NavBar from '../organism/Navbar.js';
+import './ViewPokemon.css'
 
 export default function ViewPokemon(){
     const { name } = useParams();
@@ -25,11 +26,9 @@ export default function ViewPokemon(){
     },[])
 
     if(loading){
-        return(
-            <div>
-                Loading..
-            </div>
-        )
+        return (
+            <div className="spinner"></div>
+        );
     } else{
         return(
             <div className='main-container h-min'>
