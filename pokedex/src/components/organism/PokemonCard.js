@@ -6,17 +6,39 @@ export default function PokemonCard({pokemon, imageUrls, name}){
         const idNumber = String(pokemon.id).padStart(3, '0');
         const types = pokemon.types.map((typeObj, index) => typeObj.type.name);
 
+        let colorClass = '';
+
+        // Check the types and assign color class accordingly
+        // if (types[0] ===('grass')) {
+        //     colorClass = 'hover:border-emerald-500';
+        // } else if (types[0] ===('fire')) {
+        //     colorClass = 'hover:border-red-1 '; 
+        // } else if (types[0] ===('water')) {
+        //     colorClass = 'hover:border-blue-600 '; 
+        // }  else if (types[0] ===('bug')) {
+        //     colorClass = 'hover:border-amber-800';
+        // }  else if (types[0] ===('electric')) {
+        //     colorClass = 'hover:border-yellow-1';
+        // } else if (types[0] ===('poison')) {
+        //     colorClass = 'hover:border-violet-600'
+        // } else if (types[0] ===('ground')) {
+        //     colorClass = 'hover:border-yellow-900'
+        // }
+        // Add more conditions for other types as needed
+
         return(
-            <div class="rounded-md animated-background hover:bg-gradient-to-r hover:border-red-1 hover:cursor-pointer hover:scale-105 hover:shadow-lg hover:shadow-gray-400 
+
+            <div className={`card-div rounded-lg animated-background hover:bg-gradient-to-r hover:cursor-pointer hover:border-blue-1 hover:scale-110 hover:shadow-lg hover:shadow-gray-400 
                         transition-all duration-300 ease-in-out from-red-100 via-yellow-50 to-blue-200
-                        font-['nunito'] max-w-xs border-2 border-blue-2 shadow mx-5 my-5 bg-white">
+                        font-['nunito'] max-w-xs border-2 border-blue-2 shadow mx-5 my-5 ${colorClass} bg-white`}>
                 
                 <div className='flex items-center justify-end w-full text-xl font-bold text-blue-2 pr-3 pt-2'>
                         ID: {idNumber}
                 </div>
 
                  {(imageUrls[name] && 
-                    (<img key={name} className="rounded-t-lg" src={imageUrls[name]} alt={name}/>)) ? (<img key={name} className="rounded-t-lg" src={imageUrls[name]} alt={name}/>) : 
+                    (<img key={name} className="rounded-t-lg" src={imageUrls[name]} alt={name}/>)) ? 
+                    (<img key={name} className="rounded-t-lg" src={imageUrls[name]} alt={name}/>) : 
                     (
                     <div className='min-w-80 flex items-center justify-center'>
                         Loading...
