@@ -181,12 +181,13 @@ export default function HomePage(){
     return (
         <div className='main-container h-min'>
             {/* Nav Bar */}
-            <NavBar /> 
+            <NavBar />
+            <div className='h-[120px]'></div>
             {/* Main Home Page Screen */}
             <div className='w-full h-min flex items-center justify-center flex-col'>
                 {/* Welcome section */}
                 <div className='w-full h-screen flex flex-col items-center justify-center bg-gray-100'>
-                    <img id="pokeball" src='/assets/pokeball.png' className='mt-[140px] w-[500px]'/>
+                    <img id="pokeball" src='/assets/pokeball.png' className='w-[500px]'/>
           
                     <p className="text-lg m-6 group relative w-max pt-5">
                         <button className='hover:text-blue-1 text-3xl font-["nunito"] font-bold text-blue-2' onClick={handleExploreClick} disabled={!hasMore}>EXPLORE POKEMONS</button>

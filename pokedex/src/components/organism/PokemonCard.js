@@ -29,15 +29,15 @@ export default function PokemonCard({pokemon, imageUrls, name}){
         // }
         // Add more conditions for other types as needed
 
-        const handleCardClick = (pokemonName) => {
-            navigate(`../pokemon/${pokemonName}`);
+        const handleCardClick = (pokemonId) => {
+            navigate(`../pokemon/${pokemonId}`);
         }
     
         return(
 
             <div className={`card-div rounded-lg animated-background hover:bg-gradient-to-r hover:cursor-pointer hover:border-blue-1 hover:scale-110 hover:shadow-lg hover:shadow-gray-400 
                         transition-all duration-300 ease-in-out from-red-100 via-yellow-50 to-blue-200
-                        font-['nunito'] max-w-xs border-2 border-blue-2 shadow mx-5 my-5 ${colorClass} bg-white`} onClick={() => handleCardClick(pokemon.name)}>
+                        font-['nunito'] max-w-xs border-2 border-blue-2 shadow mx-5 my-5 ${colorClass} bg-white`} onClick={() => handleCardClick(pokemon.id)}>
                 
                 <div className='flex items-center justify-end w-full text-xl font-bold text-blue-2 pr-3 pt-2'>
                         ID: {idNumber}
