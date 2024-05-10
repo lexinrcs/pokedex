@@ -79,7 +79,7 @@ export default function HomePage(){
               (searchTerm === "" || pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()))
             );
         });
-        console.log(filteredData)
+        // console.log(filteredData)
 
         const sortedData = [...filteredData].sort((a, b) => {
             const data1 = pokemonData[a.name]
@@ -233,14 +233,14 @@ export default function HomePage(){
                         <>
                             <div className='flex flex-wrap items-center justify-center'>
                                 {currentCards.map((pokemon) => (
-                                    <PokemonCard pokemon={pokemonData[pokemon.name]} imageUrls={imageUrls} name={pokemon.name}/>                
+                                    <PokemonCard key={pokemon.name} pokemon={pokemonData[pokemon.name]} imageUrls={imageUrls} name={pokemon.name}/>                
                                 ))}
                             </div>
 
-                            <p class="text-lg m-6 group relative w-max">
+                            <p className="text-lg m-6 group relative w-max">
                                 <button className='hover:text-blue-1 text-2xl font-["nunito"] font-bold text-blue-2' onClick={handleLoadMore} disabled={!hasMore}>LOAD MORE</button>
-                                <span class="absolute -bottom-1 left-1/2 w-0 transition-all h-0.5 bg-blue-1 group-hover:w-3/6"></span>
-                                <span class="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-blue-1 group-hover:w-3/6"></span>
+                                <span className="absolute -bottom-1 left-1/2 w-0 transition-all h-0.5 bg-blue-1 group-hover:w-3/6"></span>
+                                <span className="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-blue-1 group-hover:w-3/6"></span>
                             </p>
                         </>
                     ) : (

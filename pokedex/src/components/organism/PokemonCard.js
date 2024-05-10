@@ -53,12 +53,12 @@ export default function PokemonCard({pokemon, imageUrls, name}){
                     )
                 }
 
-                <div class="p-5 flex flex-col justify-center item-start">
-                    <h5 class="mb-1 text-2xl font-bold text-blue-2 dark:text-white mx-1">{name.toUpperCase()}</h5> 
+                <div className="p-5 flex flex-col justify-center item-start">
+                    <h5 className="mb-1 text-2xl font-bold text-blue-2 dark:text-white mx-1">{name.toUpperCase()}</h5> 
                     
                     <div className='flex mt-2 min-w-fit'>
-                        {types.map((type) => (
-                            <div
+                        {types.map((type,index) => (
+                            <div key={index}
                             className={`max-w-fit rounded-md shadow px-3 mx-1 ${
                                 type === 'normal' ? 'bg-gray-300 text-blue-2'
                                 : type === 'fighting' ? 'bg-gray-700 text-white'
