@@ -79,7 +79,7 @@ export default function HomePage(){
             return (
               (filterById === "" || data.id.toString().includes(String(filterById).padStart(3, '0')) || String((data.id).toString()).padStart(3, '0').includes(filterById)) &&
               (filterByName === "" || pokemon.name.toLowerCase().includes(filterByName.toLowerCase())) &&
-              (searchTerm === "" || pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()))
+              (searchTerm === "" || pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) || data.id.toString().includes(String(searchTerm).padStart(3, '0')) || String((data.id).toString()).padStart(3, '0').includes(searchTerm))
             );
         });
         // console.log(filteredData)
