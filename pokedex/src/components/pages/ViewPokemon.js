@@ -4,6 +4,8 @@ import NavBar from '../organism/Navbar.js';
 import './ViewPokemon.css'
 import { GrCaretNext,  GrCaretPrevious } from "react-icons/gr";
 import Bar from '../atoms/Bar.js';
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+
 
 export default function ViewPokemon(){
     const navigate = useNavigate();
@@ -80,7 +82,7 @@ export default function ViewPokemon(){
         
         fetchCategory();      
         fetchPokemonData();
-    },[]);
+    },[id]);
 
     useEffect(() => {
         if(pokemonData.types){
@@ -156,24 +158,24 @@ export default function ViewPokemon(){
                                 {/* Functionality Section */}
                                 <div className='flex w-full items-center justify-between'>
                                     <div className='flex items-center'>
-                                        <h4 className='text-3xl font-["nunito"] font-bold text-blue-2 m-1'> {prevPokemon} </h4>       
-                                        <GrCaretPrevious className={`h-16 w-16 bg-yellow-1 text-blue-2 rounded-full p-4 m-1 ${prevPokemon !== "" ? 'hover:cursor-pointer' : ''}`} onClick={() => handlePrevClick()}/>   
+                                        <h4 className='text-3xl font-["nunito"] font-extrabold text-blue-2 m-1'> {prevPokemon} </h4>       
+                                        <FaArrowLeft className={`h-16 w-16 bg-yellow-1 text-blue-2 rounded-full p-4 m-1 ${prevPokemon !== "" ? 'hover:cursor-pointer' : ''}`} onClick={() => handlePrevClick()}/>   
                                     </div>
     
                                     <div className='flex items-center'>
-                                        <GrCaretNext className={`h-16 w-16 bg-yellow-1 text-blue-2 rounded-full p-4 m-1 ${nextPokemon !== "" ? 'hover:cursor-pointer' : ''}`} onClick={() => handleNextClick()}/>
-                                        <h4 className='text-3xl font-["nunito"] font-bold text-blue-2 m-1'> {nextPokemon} </h4>
+                                        <FaArrowRight className={`h-16 w-16 text-blue-2 p-4 m-1 bg-yellow-1 rounded-full ${nextPokemon !== "" ? 'hover:cursor-pointer' : ''}`} onClick={() => handleNextClick()}/>
+                                        <h4 className='text-3xl font-["nunito"] font-extrabold text-blue-2 m-1'> {nextPokemon} </h4>
                                     </div>
                                 </div>
 
                                 {/* Info Section*/}
                                 <div className='min-h-fit w-fit flex flex-wrap items-center justify-center border-2 border-blue-2 border-8 rounded-2xl p-2 my-8
-                                                transition-all duration-300 ease-in-out from-red-100 via-yellow-50 to-blue-200 animated-background bg-gradient-to-r '>
+                                                transition-all duration-300 ease-in-out from-red-200 via-yellow-100 to-blue-300 animated-background bg-gradient-to-r '>
                                     {/* Details Section 1*/}
                                     <div className='my-2 px-4 h-full w-full xl:w-1/3 flex flex-wrap order-2 xl:order-1 flex-col'>
                                         {/* Types */}
-                                        <div className='mb-4 p-4 w-full rounded-xl border-2 border-blue-2 ring-4 ring-blue-1 shadow'>
-                                            <h4 className='text-3xl font-["nunito"] font-bold text-blue-2 '> TYPE </h4>
+                                        <div className='mb-4 p-4 w-full rounded-xl border-2 border-blue-2 ring-4 ring-blue-1 shadow bg-white'>
+                                            <h1 className='text-3xl font-["nunito"] font-bold text-blue-2 '> TYPE </h1>
                                             <div className='flex flex-wrap mt-2 min-w-fit'>
                                                 {types.map((type,index) => (
                                                     <div key={index}
@@ -205,7 +207,7 @@ export default function ViewPokemon(){
                                             </div>
                                         </div>
                                         {/* Weaknesses */}
-                                        <div className='mb-4 p-4 border-2 border-blue-2 ring-4 ring-blue-1 shadow w-full rounded-xl'>
+                                        <div className='mb-4 p-4 border-2 border-blue-2 ring-4 ring-blue-1 shadow w-full rounded-xl bg-white'>
                                             <h4 className='text-3xl font-["nunito"] font-bold text-blue-2 '> WEAKNESS </h4>
                                             <div className='flex flex-wrap mt-2 w-fit'>
                                                 {weaknesses.map((weakness,index) => (
@@ -239,16 +241,16 @@ export default function ViewPokemon(){
                                         </div>
                                                 
                                         <div className='mb-4 w-full flex flex-wrap items-center justify-between'>
-                                            <div className='mb-4 p-4 border-2 border-blue-2 ring-4 ring-blue-1 shadow rounded-xl w-full'>
+                                            <div className='mb-4 p-4 border-2 border-blue-2 ring-4 ring-blue-1 shadow rounded-xl w-full bg-white'>
                                                 <h4 className='text-3xl font-["nunito"] font-bold text-blue-2 '> CATEGORY </h4>
-                                                <h4 className='text-2xl font-["nunito"] font-bold text-blue-2 '> {category} </h4>
+                                                <h4 className='text-2xl font-["nunito"] text-blue-2 '> {category} </h4>
                                             </div>
 
-                                            <div className='p-4 border-2 border-blue-2 ring-4 ring-blue-1 shadow rounded-xl w-full'>
+                                            <div className='p-4 border-2 border-blue-2 ring-4 ring-blue-1 shadow rounded-xl w-full bg-white'>
                                                 <h4 className='text-3xl font-["nunito"] font-bold text-blue-2 '> ABILITY </h4>
                                                 <div className='flex flex-col'>
                                                     {pokemonData.abilities.filter(ability => !ability.is_hidden).map((ability, index) => (
-                                                        <h4 className='my-1 text-2xl font-["nunito"] font-bold text-blue-2'> {capitalize(ability.ability.name)} </h4>
+                                                        <h4 className='my-1 text-2xl font-["nunito"] text-blue-2'> {capitalize(ability.ability.name)} </h4>
                                                     ))}
                                                 </div>
                                             </div>
@@ -258,8 +260,8 @@ export default function ViewPokemon(){
                                     </div>
 
                                     {/*Id,Image, Name*/}
-                                    <div className='my-2 h-full w-full xl:w-1/3 flex flex-col order-1 xl:order-2 items-center justify-center'>
-                                        <h4 className='text-5xl font-["nunito"] font-bold text-blue-2 '> {pokemonData.name.toUpperCase()}</h4>
+                                    <div className='my-2 h-full w-full xl:w-1/3 flex flex-col order-1 xl:order-2 items-center justify-center flex-wrap'>
+                                        <h4 className='text-4xl font-["nunito"] font-extrabold text-blue-2 center'> {pokemonData.name.toUpperCase()}</h4>
                                         <h4 className='text-4xl font-["nunito"] font-bold text-blue-2 opacity-80 '> ID #{pokemonId}</h4>
                                         <img className="w-full" key={id} src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pokemonId}.png`} alt={id}/>
                                     </div>
@@ -268,18 +270,18 @@ export default function ViewPokemon(){
                                     <div className='rounded-lg w-full my-2 px-4 h-full xl:w-1/3 flex flex-wrap order-3 xl:order-3 flex-col '>
                                         {/* Height and Weight*/}
                                         <div className='mb-4 flex flex-wrap items-center justify-center w-full '>
-                                            <div className='mb-4 p-4 rounded-xl w-full border-2 border-blue-2 ring-4 ring-blue-1 shadow'>
+                                            <div className='mb-4 p-4 rounded-xl w-full border-2 border-blue-2 ring-4 ring-blue-1 shadow bg-white'>
                                                 <h4 className='text-3xl font-["nunito"] font-bold text-blue-2 '> HEIGHT</h4>
-                                                <h4 className='text-2xl font-["nunito"] font-bold text-blue-2 '> {parseFloat(pokemonData.height/10)} m</h4>
+                                                <h4 className='text-2xl font-["nunito"] text-blue-2 '> {parseFloat(pokemonData.height/10)} m</h4>
                                             </div>
-                                            <div className='p-4 rounded-xl w-full border-2 border-blue-2 ring-4 ring-blue-1 shadow'>
+                                            <div className='p-4 rounded-xl w-full border-2 border-blue-2 ring-4 ring-blue-1 shadow bg-white'>
                                                 <h4 className='text-3xl font-["nunito"] font-bold text-blue-2 '> WEIGHT </h4>
-                                                <h4 className='text-2xl font-["nunito"] font-bold text-blue-2 '> {parseFloat(pokemonData.weight/10)} kg</h4>
+                                                <h4 className='text-2xl font-["nunito"] text-blue-2 '> {parseFloat(pokemonData.weight/10)} kg</h4>
                                             </div>
                                         </div>
 
                                         {/* Stats */}
-                                        <div className='mb-4 w-full object-scale-down  border-2 border-blue-2 ring-4 ring-blue-1 shadow  rounded-xl p-4'>
+                                        <div className='mb-4 w-full object-scale-down  border-2 border-blue-2 ring-4 ring-blue-1 shadow  rounded-xl p-4 bg-white'>
                                             <h4 className='text-3xl font-["nunito"] font-bold text-blue-2 '> STATS </h4>
                                                 <div className="p-2 flex flex-col items-start justify-start rounded-lg w-fit">
                                                     <div className='flex items-end justify-start mt-8'>

@@ -190,7 +190,7 @@ export default function HomePage(){
                     <img id="pokeball" src='/assets/pokeball.png' className='w-[500px]'/>
           
                     <p className="text-lg m-6 group relative w-max pt-5">
-                        <button className='hover:text-blue-1 text-3xl font-["nunito"] font-bold text-blue-2' onClick={handleExploreClick} disabled={!hasMore}>EXPLORE POKEMONS</button>
+                        <button className='hover:text-blue-1 text-3xl font-["nunito"] font-black text-blue-2' onClick={handleExploreClick} disabled={!hasMore}>EXPLORE POKEMONS</button>
                         <span className="absolute -bottom-1 left-1/2 w-0 transition-all h-0.5 bg-blue-1 group-hover:w-3/6"></span>
                         <span className="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-blue-1 group-hover:w-3/6"></span>
                     </p>
@@ -258,7 +258,7 @@ export default function HomePage(){
 
                             {hasMore ? (
                                 <p className="text-lg m-6 group relative w-max">
-                                    <button className='hover:text-blue-1 text-2xl font-["nunito"] font-bold text-blue-2' onClick={() =>{ handleLoadMore();}} disabled={!hasMore}>LOAD MORE</button>
+                                    <button className='hover:text-blue-1 text-2xl font-["nunito"] font-extrabold text-blue-2' onClick={() =>{ handleLoadMore();}} disabled={!hasMore}>LOAD MORE</button>
                                     <span className="absolute -bottom-1 left-1/2 w-0 transition-all h-0.5 bg-blue-1 group-hover:w-3/6"></span>
                                     <span className="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-blue-1 group-hover:w-3/6"></span>
                                 </p>
